@@ -20,10 +20,10 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Restore .NET dependencies
-        run: dotnet restore fs-assignment-2026-2-order-processing-77681.sln
+        run: dotnet restore fs-assignment-2026-2-order-processing-77681.slnx
 
       - name: Build .NET solution
-        run: dotnet build fs-assignment-2026-2-order-processing-77681.sln --no-restore --configuration Release
+        run: dotnet build fs-assignment-2026-2-order-processing-77681.slnx --no-restore --configuration Release
 
   build-react:
     runs-on: ubuntu-latest
