@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Elementos de la solución/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="AdminDashboard.React/admindashboard.react.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="CustomerPortal.Blazor/CustomerPortal.Blazor.csproj" />
+  <Project Path="Inventory.Service/Inventory.Service.csproj" />
+  <Project Path="OrderProcessing.Api/OrderProcessing.Api.csproj" />
+  <Project Path="OrderProcessing.Application/OrderProcessing.Application.csproj" />
+  <Project Path="OrderProcessing.Domain/OrderProcessing.Domain.csproj" />
+  <Project Path="OrderProcessing.Infrastructure/OrderProcessing.Infrastructure.csproj" />
+  <Project Path="Payment.Service/Payment.Service.csproj" />
+  <Project Path="Shared.Contracts/Shared.Contracts.csproj" />
+  <Project Path="Shipping.Service/Shipping.Service.csproj" />
+</Solution>

@@ -1,0 +1,141 @@
+﻿@page "/checkout"
+@rendermode InteractiveServer
+@using OrderProcessing.Application.Dtos
+@using OrderProcessing.Application.Requests
+@inject CustomerPortal.Blazor.Services.OrderApiClient ApiClient
+
+<PageTitle>Checkout</PageTitle>
+
+<h1>Checkout</h1>
+
+<div class="mb-3">
+    <label class="form-label">Customer Id</label>
+    <input type="number" class="form-control" @bind="customerId" />
+</div>
+
+@if (products is null)
+{
+    <p>Loading products...</p>
+}
+else if (products.Count == 0)
+{
+    <p>No products available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.StockQuantity</td>
+                    <td>
+                        <input type="number"
+                               class="form-control"
+                               min="0"
+                               @bind="quantities[product.Id]" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" @onclick="SubmitOrder">
+        Submit Order
+    </button>
+}
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <div class="alert alert-info mt-3">
+        @message
+    </div>
+}
+
+@if (createdOrder is not null)
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Order Created</h5>
+            <p><strong>Order Id:</strong> @createdOrder.Id</p>
+            <p><strong>Status:</strong> @createdOrder.Status</p>
+            <p><strong>Total:</strong> @createdOrder.TotalAmount</p>
+        </div>
+    </div>
+}
+
+@code {
+    private List<ProductDto>? products;
+    private Dictionary<int, int> quantities = new();
+    private int customerId = 1;
+    private string? message;
+    private OrderDto? createdOrder;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ApiClient.GetProductsAsync();
+
+        foreach (var product in products)
+        {
+            quantities[product.Id] = 0;
+        }
+    }
+
+    private async Task SubmitOrder()
+    {
+        message = null;
+        createdOrder = null;
+
+        if (products is null || products.Count == 0)
+        {
+            message = "No products available.";
+            return;
+        }
+
+        var items = quantities
+            .Where(q => q.Value > 0)
+            .Select(q => new CheckoutOrderItemRequest
+            {
+                ProductId = q.Key,
+                Quantity = q.Value
+            })
+            .ToList();
+
+        if (items.Count == 0)
+        {
+            message = "Select at least one product.";
+            return;
+        }
+
+        var request = new CheckoutOrderRequest
+        {
+            CustomerId = customerId,
+            Items = items
+        };
+
+        createdOrder = await ApiClient.CheckoutAsync(request);
+
+        if (createdOrder is null)
+        {
+            message = "Checkout failed.";
+            return;
+        }
+
+        message = "Order submitted successfully.";
+
+        foreach (var key in quantities.Keys.ToList())
+        {
+            quantities[key] = 0;
+        }
+    }
+}

@@ -1,0 +1,65 @@
+﻿@page "/order-status"
+@rendermode InteractiveServer
+@inject CustomerPortal.Blazor.Services.OrderApiClient ApiClient
+
+<PageTitle>Order Status</PageTitle>
+
+<h1>Order Status</h1>
+
+<div class="mb-3">
+    <label class="form-label">Order Id</label>
+    <input type="number" class="form-control" @bind="orderId" />
+</div>
+
+<button class="btn btn-primary" @onclick="CheckStatus">
+    Check Status
+</button>
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <div class="alert alert-info mt-3">
+        @message
+    </div>
+}
+
+@if (order is not null)
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Order Details</h5>
+            <p><strong>Order Id:</strong> @order.Id</p>
+            <p><strong>Customer Id:</strong> @order.CustomerId</p>
+            <p><strong>Status:</strong> @order.Status</p>
+            <p><strong>Total:</strong> @order.TotalAmount</p>
+            <p><strong>Created At:</strong> @order.CreatedAt</p>
+        </div>
+    </div>
+}
+
+@code {
+    private int orderId;
+    private string? message;
+    private OrderProcessing.Application.Dtos.OrderDto? order;
+
+    private async Task CheckStatus()
+    {
+        message = null;
+        order = null;
+
+        if (orderId <= 0)
+        {
+            message = "Enter a valid order id.";
+            return;
+        }
+
+        order = await ApiClient.GetOrderByIdAsync(orderId);
+
+        if (order is null)
+        {
+            message = "Order not found.";
+            return;
+        }
+
+        message = "Order loaded successfully.";
+    }
+}

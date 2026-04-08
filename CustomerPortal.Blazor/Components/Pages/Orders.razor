@@ -1,0 +1,54 @@
+﻿@page "/orders"
+@rendermode InteractiveServer
+@using OrderProcessing.Application.Dtos
+@inject CustomerPortal.Blazor.Services.OrderApiClient ApiClient
+
+<PageTitle>Orders</PageTitle>
+
+<h1>Orders</h1>
+
+@if (orders is null)
+{
+    <p>Loading orders...</p>
+}
+else if (orders.Count == 0)
+{
+    <p>No orders found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Customer Id</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Items</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.CustomerId</td>
+                    <td>@order.CreatedAt</td>
+                    <td>@order.Status</td>
+                    <td>@order.TotalAmount</td>
+                    <td>@order.Items.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<OrderDto>? orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await ApiClient.GetOrdersAsync();
+    }
+}

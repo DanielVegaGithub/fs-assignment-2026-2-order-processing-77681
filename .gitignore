@@ -1,0 +1,30 @@
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# VS Code / Rider
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Node / React
+node_modules/
+dist/
+AdminDashboard.React/.vite/
+
+# OS
+.DS_Store
+Thumbs.db

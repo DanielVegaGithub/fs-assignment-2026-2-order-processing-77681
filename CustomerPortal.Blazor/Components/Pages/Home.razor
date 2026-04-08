@@ -1,0 +1,76 @@
+﻿@page "/"
+
+<PageTitle>Customer Portal</PageTitle>
+
+<div class="hero-panel mb-4">
+    <h1 class="hero-title">Distributed Order Processing Platform</h1>
+    <p class="hero-subtitle">
+        Browse products, place orders, and track their status through the workflow.
+    </p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <h4>Products</h4>
+            <p>View catalog and stock.</p>
+            <a class="portal-btn-modern" href="/products">Open Products</a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <h4>Checkout</h4>
+            <p>Create and submit a new order.</p>
+            <a class="portal-btn-modern" href="/checkout">Go to Checkout</a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <h4>Orders</h4>
+            <p>Review submitted orders.</p>
+            <a class="portal-btn-modern" href="/orders">View Orders</a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <h4>Order Status</h4>
+            <p>Check a specific order.</p>
+            <a class="portal-btn-modern" href="/order-status">Check Status</a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="step-card">
+            <div class="step-number">1</div>
+            <h5>Submit Order</h5>
+            <p class="mb-0">
+                The customer sends an order from the portal.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <h5>Process Workflow</h5>
+            <p class="mb-0">
+                RabbitMQ routes the order through Inventory, Payment, and Shipping.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <h5>Final Status</h5>
+            <p class="mb-0">
+                The order is updated until it reaches Completed.
+            </p>
+        </div>
+    </div>
+</div>
