@@ -19,11 +19,35 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Restore .NET dependencies
-        run: dotnet restore fs-assignment-2026-2-order-processing-77681.slnx
+      - name: Restore OrderProcessing.Api
+        run: dotnet restore OrderProcessing.Api/OrderProcessing.Api.csproj
 
-      - name: Build .NET solution
-        run: dotnet build fs-assignment-2026-2-order-processing-77681.slnx --no-restore --configuration Release
+      - name: Build OrderProcessing.Api
+        run: dotnet build OrderProcessing.Api/OrderProcessing.Api.csproj --no-restore --configuration Release
+
+      - name: Restore Inventory.Service
+        run: dotnet restore Inventory.Service/Inventory.Service.csproj
+
+      - name: Build Inventory.Service
+        run: dotnet build Inventory.Service/Inventory.Service.csproj --no-restore --configuration Release
+
+      - name: Restore Payment.Service
+        run: dotnet restore Payment.Service/Payment.Service.csproj
+
+      - name: Build Payment.Service
+        run: dotnet build Payment.Service/Payment.Service.csproj --no-restore --configuration Release
+
+      - name: Restore Shipping.Service
+        run: dotnet restore Shipping.Service/Shipping.Service.csproj
+
+      - name: Build Shipping.Service
+        run: dotnet build Shipping.Service/Shipping.Service.csproj --no-restore --configuration Release
+
+      - name: Restore CustomerPortal.Blazor
+        run: dotnet restore CustomerPortal.Blazor/CustomerPortal.Blazor.csproj
+
+      - name: Build CustomerPortal.Blazor
+        run: dotnet build CustomerPortal.Blazor/CustomerPortal.Blazor.csproj --no-restore --configuration Release
 
   build-react:
     runs-on: ubuntu-latest
